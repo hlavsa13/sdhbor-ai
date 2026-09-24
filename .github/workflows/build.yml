@@ -1,1 +1,5 @@
+- name: Validate Content
+  run: python scripts/validate_content.py
 
+- name: Generate Site
+  run: python scripts/generate_site.py
