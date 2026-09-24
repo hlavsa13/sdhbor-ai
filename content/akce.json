@@ -1,1 +1,30 @@
-
+{
+  "pravidelne_akce": [
+    {
+      "nazev": "Valná hromada SDH",
+      "obdobi": "leden/únor"
+    },
+    {
+      "nazev": "Hasičský ples",
+      "obdobi": "zimní měsíce"
+    },
+    {
+      "nazev": "Pálení čarodějnic",
+      "obdobi": "30. dubna"
+    }
+  ],
+  "brigady": [
+    {
+      "datum": "2018-01-14",
+      "nazev": "Odvoz šrotu",
+      "ucast": 11,
+      "hodiny": 16.5
+    },
+    {
+      "datum": "2018-01-13",
+      "nazev": "Příprava kamení pro čekárnu",
+      "ucast": 12,
+      "hodiny": 30
+    }
+  ]
+}
