@@ -1,4 +1,4 @@
-name: Build SDH Bor
+name: Deploy SDH Bor
 
 on:
   push:
@@ -6,11 +6,12 @@ on:
       - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -18,13 +19,22 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
 
-      - name: Generate Site
+      - name: Validate content
+        run: python scripts/validate_content.py
+
+      - name: Generate site
         run: python scripts/generate_site.py
 
-      - name: Upload generated site
-        uses: actions/upload-artifact@v4
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          name: generated-site
-          path: generated/
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: generated/
+          server-dir: ${{ secrets.FTP_TARGET }}
