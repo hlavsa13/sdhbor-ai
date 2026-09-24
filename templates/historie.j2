@@ -1,1 +1,21 @@
-<!-- index template -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Historie</title>
+</head>
+<body>
+
+<h1>Historie SDH Bor</h1>
+
+{% for udalost in historie %}
+<h2>{{ udalost.nazev }}</h2>
+
+{% if udalost.rok %}
+<p>{{ udalost.rok }}</p>
+{% endif %}
+
+{% endfor %}
+
+</body>
+</html>
