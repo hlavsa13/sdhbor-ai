@@ -2,19 +2,69 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<title>{{ nazev }}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>{{ nazev }} - {{ obec }}</title>
+
+<style>
+body{
+    font-family: Arial,sans-serif;
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+}
+.hero{
+    text-align:center;
+}
+.hero img{
+    max-width:100%;
+}
+.stats{
+    display:flex;
+    gap:20px;
+    justify-content:center;
+}
+.stat{
+    padding:15px;
+    border:1px solid #ccc;
+}
+</style>
+
 </head>
 <body>
 
+<div class="hero">
+
 <h1>{{ nazev }}</h1>
 
-<p>{{ obec }}</p>
+<h2>{{ obec }}</h2>
 
-<p>Založeno {{ rok_zalozeni }}</p>
-
-<p>Počet členů {{ pocet_clenu }}</p>
+{% if hero_image %}
+{{ hero_image }}
+{% endif %}
 
 <p>{{ uvodni_text }}</p>
+
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<h3>Založení</h3>
+<p>{{ rok_zalozeni }}</p>
+</div>
+
+<div class="stat">
+<h3>Členů</h3>
+<p>{{ pocet_clenu }}</p>
+</div>
+
+<div class="stat">
+<h3>Tradice</h3>
+<p>{{ let_tradic }}</p>
+</div>
+
+</div>
 
 </body>
 </html>
