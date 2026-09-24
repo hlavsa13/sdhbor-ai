@@ -1,1 +1,20 @@
-<!-- index template -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Akce</title>
+</head>
+<body>
+
+<h1>Akce a brigády</h1>
+
+{% for brigada in brigady %}
+<p>
+{{ brigada.datum }}
+-
+{{ brigada.nazev }}
+</p>
+{% endfor %}
+
+</body>
+</html>
