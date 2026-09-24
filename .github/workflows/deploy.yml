@@ -29,7 +29,10 @@ jobs:
 
       - name: Generate site
         run: python scripts/generate_site.py
-
+        
+      - name: List generated files
+        run: ls -la generated
+        
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
