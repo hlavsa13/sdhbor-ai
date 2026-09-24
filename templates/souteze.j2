@@ -1,19 +1,280 @@
 <!DOCTYPE html>
-<html>
+<html lang="cs">
 <head>
-<meta charset="utf-8">
-<title>Soutěže</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soutěže — SDH Bor u Sedlčan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Special+Elite&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --paper: #f2ece0; --pale: #f8f3e8; --ink: #1a1209; --dark: #1a0f05; --copper: #c8702a; --tan: #c8a882; --muted: #8b6543; --pale-bg: #f5ead8; }
+html { scroll-behavior: smooth; }
+body { background: var(--paper); color: var(--ink); font-family: 'Libre Baskerville', Georgia, serif; font-size: 16px; line-height: 1.7; }
+nav { background: var(--dark); position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--copper); }
+.nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-family: 'IM Fell English SC', serif; font-size: 1.3rem; letter-spacing: 0.04em; color: var(--copper); text-decoration: none; }
+.nav-links { display: flex; gap: 0; list-style: none; }
+.nav-links a { font-family: 'Special Elite', monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--tan); text-decoration: none; padding: 0.5rem 0.9rem; transition: color 0.2s; border-right: 1px solid rgba(200,168,130,0.15); }
+.nav-links li:first-child a { border-left: 1px solid rgba(200,168,130,0.15); }
+.nav-links a:hover, .nav-links a.active { color: var(--copper); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; flex-direction: column; gap: 5px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--tan); }
+
+.page-header { background: var(--dark); text-align: center; padding: 3rem 1rem 2rem; border-bottom: 4px double var(--copper); position: relative; overflow: hidden; }
+.page-header::before { content: 'SOUTĚŽE'; font-family: 'IM Fell English SC', serif; font-size: 18vw; color: rgba(200,112,42,0.04); position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none; white-space: nowrap; }
+.eyebrow { font-family: 'Special Elite', monospace; font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
+.page-header h1 { font-family: 'IM Fell English SC', serif; font-size: clamp(1.8rem, 5vw, 3.8rem); color: var(--copper); line-height: 1.2; letter-spacing: 0.02em; }
+.page-header .sub { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; color: var(--tan); margin-top: 0.5rem; }
+.rule-divider { height: 12px; background: repeating-linear-gradient(to bottom, var(--tan) 0, var(--tan) 1px, transparent 1px, transparent 6px, var(--tan) 6px, var(--tan) 7px, transparent 7px, transparent 12px); opacity: 0.35; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+.section { padding: 5rem 0; }
+.paper-bg { background-color: var(--paper); background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23c8a882' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E"); }
+
+/* FILTERS */
+.filter-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 3rem; align-items: center; }
+.filter-label { font-family: 'Special Elite', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-right: 0.5rem; }
+.filter-btn { font-family: 'Special Elite', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.4rem 1rem; border: 1px solid var(--tan); background: transparent; cursor: pointer; color: var(--muted); transition: all 0.2s; }
+.filter-btn:hover { border-color: var(--copper); color: var(--copper); }
+.filter-btn.active { background: var(--copper); color: var(--pale-bg); border-color: var(--copper); }
+
+/* RESULTS GRID */
+.results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.result-card { background: var(--pale-bg); border: 1px solid var(--tan); padding: 1.5rem; position: relative; transition: transform 0.2s, box-shadow 0.2s; }
+.result-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(26,15,5,0.15); }
+.result-card.podium { border-color: var(--copper); outline: 2px solid var(--copper); outline-offset: -5px; }
+.result-year { font-family: 'Special Elite', monospace; font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--copper); display: block; margin-bottom: 0.4rem; }
+.result-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--ink); margin-bottom: 0.6rem; line-height: 1.3; }
+.result-meta { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.4rem; }
+.result-meta strong { color: var(--ink); }
+.result-time { font-family: 'Special Elite', monospace; font-size: 1.3rem; color: var(--copper); display: block; margin: 0.5rem 0; }
+.place-badge { position: absolute; top: 1rem; right: 1rem; font-family: 'Special Elite', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; background: var(--copper); color: var(--pale-bg); padding: 0.2rem 0.5rem; }
+.place-badge.silver { background: var(--muted); }
+.place-badge.bronze { background: #8b6543; }
+
+/* STATS SUMMARY */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; background: var(--dark); margin-bottom: 3rem; }
+.stat-box { text-align: center; padding: 2rem 1rem; border-right: 1px solid rgba(200,168,130,0.15); }
+.stat-box:last-child { border-right: none; }
+.stat-num { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; color: var(--copper); display: block; line-height: 1; }
+.stat-lbl { font-family: 'Special Elite', monospace; font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--tan); margin-top: 0.3rem; display: block; }
+
+/* HIDDEN */
+.result-card.hidden { display: none; }
+
+footer { background: var(--dark); color: var(--tan); padding: 2.5rem 0 1.5rem; border-top: 4px double var(--copper); }
+.footer-inner { max-width: 1100px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 2rem; }
+.footer-logo { font-family: 'IM Fell English SC', serif; font-size: 1.7rem; letter-spacing: 0.03em; color: var(--copper); }
+.footer-nav { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.footer-nav a { font-family: 'Special Elite', monospace; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tan); text-decoration: none; }
+.footer-nav a:hover { color: var(--copper); }
+.footer-bottom { max-width: 1100px; margin: 1.5rem auto 0; padding: 1rem 2rem 0; border-top: 1px solid rgba(200,168,130,0.2); font-family: 'Special Elite', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: center; }
+
+.fade-in { opacity: 0; transform: translateY(15px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: none; }
+
+@media (max-width: 900px) { .results-grid { grid-template-columns: repeat(2, 1fr); } .stats-row { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) {
+  .results-grid { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .nav-links { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: var(--dark); padding: 1rem 0; border-bottom: 3px solid var(--copper); }
+  .nav-links.open { display: flex; }
+  .nav-links a { border: none !important; padding: 0.6rem 2rem; }
+  .nav-toggle { display: flex; }
+}
+</style>
 </head>
 <body>
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">SDH Bor</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html#o-nas">O nás</a></li>
+      <li><a href="historie.html">Historie</a></li>
+      <li><a href="souteze.html" class="active">Soutěže</a></li>
+      <li><a href="akce.html">Akce</a></li>
+      <li><a href="clenove.html">Členové</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+  </div>
+</nav>
 
-<h1>Soutěže</h1>
+<header class="page-header">
+  <p class="eyebrow">SDH Bor u Sedlčan</p>
+  <h1>Soutěže</h1>
+  <p class="sub">Výsledky z požárního sportu 2006–2019</p>
+</header>
+<div class="rule-divider"></div>
 
-{% for soutez in souteze %}
-<p>
-{{ soutez.rok }} -
-{{ soutez.soutez }}
-</p>
-{% endfor %}
+<section class="section paper-bg">
+  <div class="container">
 
+    <!-- Stats summary -->
+    <div class="stats-row fade-in">
+      <div class="stat-box"><span class="stat-num">18+</span><span class="stat-lbl">Vítězství</span></div>
+      <div class="stat-box"><span class="stat-num">3</span><span class="stat-lbl">Soutěžní týmy</span></div>
+      <div class="stat-box"><span class="stat-num">25,12</span><span class="stat-lbl">Nejlepší čas (s)</span></div>
+      <div class="stat-box"><span class="stat-num">2006</span><span class="stat-lbl">První záznamy</span></div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-bar fade-in">
+      <span class="filter-label">Rok:</span>
+      <button class="filter-btn active" data-year="all">Vše</button>
+      <button class="filter-btn" data-year="2019">2019</button>
+      <button class="filter-btn" data-year="2018">2018</button>
+      <button class="filter-btn" data-year="2017">2017</button>
+      <button class="filter-btn" data-year="2016">2016</button>
+      <button class="filter-btn" data-year="2015">2015</button>
+      <button class="filter-btn" data-year="old">2006–2014</button>
+    </div>
+
+    <div class="results-grid" id="resultsGrid">
+
+      <!-- 2019 -->
+      <div class="result-card podium fade-in" data-year="2019">
+        <span class="place-badge">1. místo</span>
+        <span class="result-year">2019</span>
+        <p class="result-name">Závod Mezi Stromy</p>
+        <p class="result-meta">Kategorie: <strong>Starší žáci</strong></p>
+        <p class="result-meta">Mládežnický tým sboru zvítězil na závodě Mezi Stromy.</p>
+      </div>
+
+      <!-- 2018 -->
+      <div class="result-card podium fade-in" data-year="2018">
+        <span class="place-badge">1. místo</span>
+        <span class="result-year">2018</span>
+        <p class="result-name">OHS Nedrahovice</p>
+        <p class="result-meta">Kategorie: <strong>Ženy + Děti</strong></p>
+        <p class="result-meta">Kombinovaný tým žen a dětí obsadil první místo.</p>
+      </div>
+
+      <div class="result-card fade-in" data-year="2018">
+        <span class="result-year">2018</span>
+        <p class="result-name">OHS Nedrahovice</p>
+        <p class="result-meta">Kategorie: <strong>Muži</strong></p>
+        <p class="result-meta">Solidní výsledek mužského týmu na okrskovém závodě.</p>
+      </div>
+
+      <!-- 2017 -->
+      <div class="result-card podium fade-in" data-year="2017">
+        <span class="place-badge">1. místo</span>
+        <span class="result-year">2017</span>
+        <p class="result-name">Závod 111 let</p>
+        <p class="result-meta">Kategorie: <strong>Muži</strong></p>
+        <span class="result-time">47,42 s</span>
+      </div>
+
+      <div class="result-card podium fade-in" data-year="2017">
+        <span class="place-badge">1. místo</span>
+        <span class="result-year">2017</span>
+        <p class="result-name">OHS Dobrošovice</p>
+        <p class="result-meta">Kategorie: <strong>Ženy</strong></p>
+        <span class="result-time">28,68 s</span>
+      </div>
+
+      <div class="result-card fade-in" data-year="2017">
+        <span class="result-year">2017</span>
+        <p class="result-name">OHS Dobrošovice</p>
+        <p class="result-meta">Kategorie: <strong>Muži</strong></p>
+        <p class="result-meta">Mužský tým závodil na okrskovém závodě v Dobrošovicích.</p>
+      </div>
+
+      <!-- 2016 -->
+      <div class="result-card fade-in" data-year="2016">
+        <span class="result-year">2016</span>
+        <p class="result-name">OHS Okrsek</p>
+        <p class="result-meta">Kategorie: <strong>Ženy</strong></p>
+        <p class="result-meta">Ženský tým se aktivně účastnil okrskových soutěží.</p>
+      </div>
+
+      <div class="result-card fade-in" data-year="2016">
+        <span class="result-year">2016</span>
+        <p class="result-name">OHS Okrsek</p>
+        <p class="result-meta">Kategorie: <strong>Muži</strong></p>
+        <p class="result-meta">Mužské družstvo prokázalo konzistentní výkonnost.</p>
+      </div>
+
+      <!-- 2015 -->
+      <div class="result-card fade-in" data-year="2015">
+        <span class="result-year">2015</span>
+        <p class="result-name">Okrsková soutěž</p>
+        <p class="result-meta">Kategorie: <strong>Muži</strong></p>
+        <p class="result-meta">Účast na okrskových závodech — příprava na sezónu 2016.</p>
+      </div>
+
+      <div class="result-card fade-in" data-year="2015">
+        <span class="result-year">2015</span>
+        <p class="result-name">Okrsková soutěž</p>
+        <p class="result-meta">Kategorie: <strong>Ženy</strong></p>
+        <p class="result-meta">Ženské družstvo pokračovalo ve svém rozvoji.</p>
+      </div>
+
+      <!-- 2006–2014 -->
+      <div class="result-card podium fade-in" data-year="old">
+        <span class="place-badge">1. místo</span>
+        <span class="result-year">2007</span>
+        <p class="result-name">OHS Bor</p>
+        <p class="result-meta">Kategorie: <strong>Muži</strong></p>
+        <span class="result-time">25,12 s</span>
+        <p class="result-meta" style="margin-top:0.3rem;">Domácí závod, výborný čas.</p>
+      </div>
+
+      <div class="result-card fade-in" data-year="old">
+        <span class="result-year">2006–2014</span>
+        <p class="result-name">Okrskové a oblastní závody</p>
+        <p class="result-meta">Kategorie: <strong>Muži, Ženy</strong></p>
+        <p class="result-meta">Sbor se pravidelně účastnil okrskových soutěží ve všech dostupných kategoriích.</p>
+      </div>
+
+      <div class="result-card fade-in" data-year="old">
+        <span class="result-year">2006–2014</span>
+        <p class="result-name">Hasičský sport v obci</p>
+        <p class="result-meta">Kategorie: <strong>Mládež</strong></p>
+        <p class="result-meta">Rozvoj mládežnického oddílu a jeho soutěžních aktivit v tomto období.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-logo">SDH Bor</span>
+    <nav class="footer-nav">
+      <a href="index.html">Úvod</a>
+      <a href="historie.html">Historie</a>
+      <a href="souteze.html">Soutěže</a>
+      <a href="akce.html">Akce</a>
+      <a href="clenove.html">Členové</a>
+      <a href="index.html#kontakt">Kontakt</a>
+    </nav>
+  </div>
+  <div class="footer-bottom">© 2024 SDH Bor u Sedlčan &nbsp;✦&nbsp; Zal. 29. července 1906</div>
+</footer>
+
+<script>
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+// Filter
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const year = btn.dataset.year;
+    document.querySelectorAll('.result-card').forEach(card => {
+      card.classList.toggle('hidden', year !== 'all' && card.dataset.year !== year);
+    });
+  });
+});
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
 </body>
 </html>
