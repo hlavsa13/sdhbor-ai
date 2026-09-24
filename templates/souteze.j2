@@ -1,1 +1,19 @@
-<!-- index template -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Soutěže</title>
+</head>
+<body>
+
+<h1>Soutěže</h1>
+
+{% for soutez in souteze %}
+<p>
+{{ soutez.rok }} -
+{{ soutez.soutez }}
+</p>
+{% endfor %}
+
+</body>
+</html>
