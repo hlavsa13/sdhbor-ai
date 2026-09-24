@@ -1,21 +1,322 @@
 <!DOCTYPE html>
-<html>
+<html lang="cs">
 <head>
-<meta charset="utf-8">
-<title>Historie</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Historie — SDH Bor u Sedlčan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Special+Elite&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --paper: #f2ece0; --pale: #f8f3e8; --ink: #1a1209; --dark: #1a0f05; --copper: #c8702a; --tan: #c8a882; --muted: #8b6543; --pale-bg: #f5ead8; }
+html { scroll-behavior: smooth; }
+body { background: var(--paper); color: var(--ink); font-family: 'Libre Baskerville', Georgia, serif; font-size: 16px; line-height: 1.7; }
+
+nav { background: var(--dark); position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--copper); }
+.nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-family: 'IM Fell English SC', serif; font-size: 1.3rem; letter-spacing: 0.04em; color: var(--copper); text-decoration: none; }
+.nav-links { display: flex; gap: 0; list-style: none; }
+.nav-links a { font-family: 'Special Elite', monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--tan); text-decoration: none; padding: 0.5rem 0.9rem; transition: color 0.2s; border-right: 1px solid rgba(200,168,130,0.15); }
+.nav-links li:first-child a { border-left: 1px solid rgba(200,168,130,0.15); }
+.nav-links a:hover, .nav-links a.active { color: var(--copper); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; flex-direction: column; gap: 5px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--tan); }
+
+.page-header { background: var(--dark); text-align: center; padding: 3rem 1rem 2rem; border-bottom: 4px double var(--copper); position: relative; overflow: hidden; }
+.page-header::before { content: 'HISTORIE'; font-family: 'IM Fell English SC', serif; font-size: 20vw; color: rgba(200,112,42,0.04); position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none; white-space: nowrap; }
+.page-header .eyebrow { font-family: 'Special Elite', monospace; font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
+.page-header h1 { font-family: 'IM Fell English SC', serif; font-size: clamp(1.8rem, 5vw, 3.8rem); color: var(--copper); line-height: 1.2; letter-spacing: 0.02em; }
+.page-header .sub { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; color: var(--tan); margin-top: 0.5rem; }
+.rule-divider { height: 12px; background: repeating-linear-gradient(to bottom, var(--tan) 0, var(--tan) 1px, transparent 1px, transparent 6px, var(--tan) 6px, var(--tan) 7px, transparent 7px, transparent 12px); opacity: 0.35; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+.section { padding: 5rem 0; }
+.paper-bg { background-color: var(--paper); background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23c8a882' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E"); }
+.dark-bg { background-color: var(--dark); color: var(--pale-bg); }
+
+/* TABS */
+.tab-bar { display: flex; border-bottom: 2px solid var(--copper); margin-bottom: 3.5rem; }
+.tab-btn { font-family: 'Special Elite', monospace; font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.9rem 2rem; background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; color: var(--muted); transition: color 0.2s, border-color 0.2s; margin-bottom: -2px; }
+.tab-btn.active { color: var(--copper); border-bottom-color: var(--copper); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* TIMELINE */
+.timeline { position: relative; padding-left: 3rem; max-width: 820px; margin: 0 auto; }
+.timeline::before { content: ''; position: absolute; left: 0.85rem; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--copper), rgba(200,112,42,0.1)); }
+.tl-item { position: relative; margin-bottom: 3rem; opacity: 0; transform: translateX(-15px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.tl-item.visible { opacity: 1; transform: none; }
+.tl-dot { position: absolute; left: -2.2rem; top: 0.4rem; width: 14px; height: 14px; background: var(--copper); border: 3px solid var(--paper); border-radius: 50%; box-shadow: 0 0 0 1px var(--copper); }
+.tl-year { font-family: 'Special Elite', monospace; font-size: 0.68rem; letter-spacing: 0.2em; color: var(--copper); display: block; margin-bottom: 0.3rem; }
+.tl-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--ink); margin-bottom: 0.5rem; line-height: 1.3; }
+.tl-body { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+.tl-card { background: var(--pale-bg); border: 1px solid var(--tan); outline: 2px solid var(--tan); outline-offset: -6px; padding: 1.5rem 1.8rem; }
+.tl-badge { display: inline-block; font-family: 'Special Elite', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; background: var(--copper); color: var(--pale-bg); padding: 0.2rem 0.6rem; margin-top: 0.8rem; transform: rotate(-1deg); }
+
+/* VILLAGE HISTORY */
+.village-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 4rem; }
+.village-text p { color: var(--muted); font-size: 0.92rem; margin-bottom: 1.1rem; }
+.village-text p strong { color: var(--ink); }
+.pull-quote { border-left: 3px solid var(--copper); padding: 1rem 1.5rem; margin: 2rem 0; }
+.pull-quote p { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; color: var(--ink); line-height: 1.6; }
+.pull-quote cite { font-family: 'Special Elite', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--copper); display: block; margin-top: 0.5rem; }
+
+.side-facts { }
+.fact-box { background: var(--pale-bg); border: 1px solid var(--tan); outline: 2px solid var(--tan); outline-offset: -5px; padding: 1.5rem; margin-bottom: 1.5rem; }
+.fact-box .fact-year { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; color: var(--copper); line-height: 1; display: block; margin-bottom: 0.3rem; }
+.fact-box .fact-label { font-family: 'Special Elite', monospace; font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+.fact-box p { font-size: 0.85rem; color: var(--muted); margin-top: 0.6rem; }
+
+footer { background: var(--dark); color: var(--tan); padding: 2.5rem 0 1.5rem; border-top: 4px double var(--copper); }
+.footer-inner { max-width: 1100px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 2rem; }
+.footer-logo { font-family: 'IM Fell English SC', serif; font-size: 1.7rem; letter-spacing: 0.03em; color: var(--copper); }
+.footer-nav { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.footer-nav a { font-family: 'Special Elite', monospace; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tan); text-decoration: none; }
+.footer-nav a:hover { color: var(--copper); }
+.footer-bottom { max-width: 1100px; margin: 1.5rem auto 0; padding: 1rem 2rem 0; border-top: 1px solid rgba(200,168,130,0.2); font-family: 'Special Elite', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: center; }
+
+.fade-in { opacity: 0; transform: translateY(15px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: none; }
+
+@media (max-width: 768px) {
+  .village-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .nav-links { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: var(--dark); padding: 1rem 0; border-bottom: 3px solid var(--copper); }
+  .nav-links.open { display: flex; }
+  .nav-links a { border: none !important; padding: 0.6rem 2rem; }
+  .nav-toggle { display: flex; }
+  .tab-btn { padding: 0.7rem 1rem; font-size: 0.65rem; }
+}
+</style>
 </head>
 <body>
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">SDH Bor</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html#o-nas">O nás</a></li>
+      <li><a href="historie.html" class="active">Historie</a></li>
+      <li><a href="souteze.html">Soutěže</a></li>
+      <li><a href="akce.html">Akce</a></li>
+      <li><a href="clenove.html">Členové</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+  </div>
+</nav>
 
-<h1>Historie SDH Bor</h1>
+<header class="page-header">
+  <p class="eyebrow">SDH Bor u Sedlčan</p>
+  <h1>Historie</h1>
+  <p class="sub">Od roku 1906 až do dnešních dní</p>
+</header>
+<div class="rule-divider"></div>
 
-{% for udalost in historie %}
-<h2>{{ udalost.nazev }}</h2>
+<section class="section paper-bg">
+  <div class="container">
 
-{% if udalost.rok %}
-<p>{{ udalost.rok }}</p>
-{% endif %}
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="showTab('sbor', this)">Historie sboru</button>
+      <button class="tab-btn" onclick="showTab('obec', this)">Historie obce Bor</button>
+    </div>
 
-{% endfor %}
+    <!-- TAB: SBOR -->
+    <div class="tab-content active" id="tab-sbor">
+      <div class="timeline">
 
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <span class="tl-year">29. července 1906</span>
+          <div class="tl-card">
+            <h3 class="tl-title">Ustavující schůze sboru</h3>
+            <p class="tl-body">Na ustavující schůzi byl za starostu sboru zvolen <strong>Karel Chocholoušek</strong>, za velitele <strong>Antonín Herán</strong>. Sbor měl 20 zakládajících členů. Tímto dnem začala více než 118letá tradice organizovaného hasičstva v Boru.</p>
+            <span class="tl-badge">Zakládající rok</span>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <span class="tl-year">Počátek 20. století</span>
+          <div class="tl-card">
+            <h3 class="tl-title">Budování základů sboru</h3>
+            <p class="tl-body">Sbor se postupně rozrůstal a budoval zázemí pro svou činnost. Pořizování výstroje, cvičení a první soutěžní účasti tvoří obraz raných let organizace.</p>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <span class="tl-year">1914 – 1918</span>
+          <div class="tl-card">
+            <h3 class="tl-title">Období první světové války</h3>
+            <p class="tl-body">Jako všechny spolky i sbor pocítil válečné roky — mnozí členové museli nastoupit do služby. Přes těžkosti organizace přežila a po válce se opět obnovila.</p>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <span class="tl-year">Meziválečné období</span>
+          <div class="tl-card">
+            <h3 class="tl-title">Rozkvět spolkového života</h3>
+            <p class="tl-body">Dvacátá a třicátá léta přinesla rozkvět spolkového hasičského života. Sbory soutěžily, pořádaly zábavy a plnily důležitou společenskou roli v obci.</p>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <span class="tl-year">1939 – 1945</span>
+          <div class="tl-card">
+            <h3 class="tl-title">Druhá světová válka</h3>
+            <p class="tl-body">Obsazení a válečná léta opět ztížila spolkovou činnost. Hasiči se přesto snažili udržovat sbor v provozu a chránit obec.</p>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <span class="tl-year">Poválečná léta</span>
+          <div class="tl-card">
+            <h3 class="tl-title">Obnova a modernizace</h3>
+            <p class="tl-body">Po osvobození se sbor plně obnovil. Postupná modernizace výzbroje a výstroje přizpůsobovala hasiče novým požadavkům doby.</p>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <span class="tl-year">28. června 1987</span>
+          <div class="tl-card">
+            <h3 class="tl-title">Otevření nové zbrojnice</h3>
+            <p class="tl-body">Slavnostní otevření zbrojnice. Objekt vznikl přestavbou <strong>drůbežárny JZD</strong> a poskytl sboru moderní zázemí pro uskladnění techniky i pro schůzovní činnost. Zbrojnice slouží dodnes.</p>
+            <span class="tl-badge">Milník sboru</span>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <span class="tl-year">2006 – 2007</span>
+          <div class="tl-card">
+            <h3 class="tl-title">100 let sboru a soutěžní úspěchy</h3>
+            <p class="tl-body">Jubilejní rok oslav stého výročí. Slavnostní akce, vzpomínkové setkání pamětníků. Na OHS Bor 2007 mužský tým zvítězil s časem <strong>25,12 s</strong>.</p>
+            <span class="tl-badge">100 let</span>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <span class="tl-year">2015 – 2019</span>
+          <div class="tl-card">
+            <h3 class="tl-title">Zlatá soutěžní dekáda</h3>
+            <p class="tl-body">Období plné soutěžních vítězství: ženský tým zvítězil v Dobrošovicích (2017, 28,68 s), mládežníci ovládli závod Mezi Stromy (2019), muži triumfovali na závodě 111 let (2017, 47,42 s) i v Nedrahovicích (2018).</p>
+            <span class="tl-badge">Série vítězství</span>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <span class="tl-year">Dnes</span>
+          <div class="tl-card">
+            <h3 class="tl-title">71 aktivních členů</h3>
+            <p class="tl-body">Sbor dnes sdružuje <strong>50 mužů</strong>, <strong>21 žen a mládežníků</strong>. V čele stojí starosta <em>Vladimír Pešta ml.</em> a velitel <em>Vladimír Spilka ml.</em> Tradice 118 let se píše dál.</p>
+            <span class="tl-badge">Současnost</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB: OBEC -->
+    <div class="tab-content" id="tab-obec">
+      <div class="village-grid">
+        <div class="village-text">
+          <span style="font-family:'Special Elite',monospace; font-size:0.68rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--copper);">Historické záznamy</span>
+          <h2 style="font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900; color:var(--ink); margin:0.5rem 0 1.5rem; line-height:1.2;">Vesnice Bor<br><em style="font-style:italic; color:var(--copper);">u Sedlčan</em></h2>
+          
+          <p>Vesnice <strong>Bor</strong> je součástí obce <strong>Nedrahovice</strong> v okrese Příbram ve Středočeském kraji. První písemné zmínky se datují k roku <strong>1537</strong>, kdy je Bor poprvé zaznamenán v historických listinách jako osada v blízkosti Sedlčan.</p>
+          
+          <div class="pull-quote">
+            <p>Bor se stal součástí Nedrahovic — spojení, které trvá od roku 1537 a formuje identitu obce po celá staletí.</p>
+            <cite>Z historických záznamů</cite>
+          </div>
+          
+          <p>Obec leží v malebném prostředí středočeské krajiny, obklopena lesy a zemědělskou půdou. Zemědělský charakter oblasti formoval život obyvatel po staletí — pole, lesy a místní řemesla tvořily základ existence vesnice.</p>
+          
+          <p>Významnou duchovní památkou je <strong>obecní zvonička</strong>, postavená v roce <strong>1885</strong>. Drobná sakrální stavba v centru vsi připomíná zbožnost a tradice místních obyvatel.</p>
+          
+          <p>Po skončení první světové války byl v obci vztyčen <strong>pomník padlým</strong> (rok <strong>1923</strong>), věnovaný místním obyvatelům, kteří zahynuli ve válečném konfliktu. Pomník dodnes připomíná oběti a je místem pietní úcty.</p>
+          
+          <p>Vznik sboru dobrovolných hasičů v roce 1906 se přirozeně vepsal do dějin obce jako jeden z formujících okamžiků spolkového a veřejného života Boru. Hasiči od počátku plnili nejen ochrannou, ale i silnou společenskou funkci — pořádali zábavy, plesy a brigády, které spojovaly místní komunitu.</p>
+        </div>
+        
+        <div class="side-facts">
+          <div class="fact-box">
+            <span class="fact-year">1537</span>
+            <span class="fact-label">První písemná zmínka</span>
+            <p>Nejstarší dochovaný historický záznam o obci Bor v listinách.</p>
+          </div>
+          <div class="fact-box">
+            <span class="fact-year">1885</span>
+            <span class="fact-label">Obecní zvonička</span>
+            <p>Postavena jako duchovní střed vsi, stojí dodnes.</p>
+          </div>
+          <div class="fact-box">
+            <span class="fact-year">1906</span>
+            <span class="fact-label">Sbor hasičů</span>
+            <p>Ustavení SDH Bor — mezník ve spolkovém životě obce.</p>
+          </div>
+          <div class="fact-box">
+            <span class="fact-year">1923</span>
+            <span class="fact-label">Pomník padlým</span>
+            <p>Vztyčen na počest občanů padlých v první světové válce.</p>
+          </div>
+          <div class="fact-box">
+            <span class="fact-year">Dnes</span>
+            <span class="fact-label">Část Nedrahovic</span>
+            <p>Bor je součástí obce Nedrahovice, okr. Příbram, Středočeský kraj.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-logo">SDH Bor</span>
+    <nav class="footer-nav">
+      <a href="index.html">Úvod</a>
+      <a href="historie.html">Historie</a>
+      <a href="souteze.html">Soutěže</a>
+      <a href="akce.html">Akce</a>
+      <a href="clenove.html">Členové</a>
+      <a href="index.html#kontakt">Kontakt</a>
+    </nav>
+  </div>
+  <div class="footer-bottom">© 2024 SDH Bor u Sedlčan &nbsp;✦&nbsp; Zal. 29. července 1906</div>
+</footer>
+
+<script>
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+function showTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+  // re-trigger animations
+  document.querySelectorAll('#tab-'+name+' .tl-item').forEach((el,i) => {
+    el.classList.remove('visible');
+    setTimeout(() => el.classList.add('visible'), i * 100);
+  });
+}
+
+const tlObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); tlObs.unobserve(e.target); }});
+}, { threshold: 0.15 });
+document.querySelectorAll('.tl-item').forEach(el => tlObs.observe(el));
+
+const fadeObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); fadeObs.unobserve(e.target); }});
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+</script>
 </body>
 </html>
